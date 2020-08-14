@@ -1,8 +1,6 @@
-"use strict";
+'use strict';
 
 const Base = require('./Base');
-const { messageType } = require('../Constants');
-const Client = require('../Client');
 
 /**
  * Represents a message
@@ -24,7 +22,7 @@ class Message extends Base {
 
 		this.data = data;
 
-		this.edited = !!data.edited
+		this.edited = !!data.edited;
 
 	}
 	get ts () {
@@ -36,6 +34,6 @@ class Message extends Base {
 	author () {
 		return this._client.getUser( this.data.user );
 	}
-};
+}
 
 module.exports = Message;

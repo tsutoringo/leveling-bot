@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const { App } = require('@slack/bolt');
 const { RTMClient }= require('@slack/rtm-api');
@@ -19,23 +19,23 @@ class Client extends EventEmitter {
 			token
 		});
 		
-		this.rtm = new RTMClient(this.token, options.rtm)
+		this.rtm = new RTMClient(this.token, options.rtm);
 		this.options = Object.assign({
 			client: {
 				events: [
-					"message"
+					'message'
 				]
 			}
 		}, options);
 
-		if(this.options.client.events.includes("message")) {
-			this.rtm.on("message", event => {
+		if(this.options.client.events.includes('message')) {
+			this.rtm.on('message', event => {
 				switch(event.subtype) {
 					case void 0:
-						this.emit("messageCreate", new Message(event,this));
+						this.emit('messageCreate', new Message(event,this));
 						break;
 				}
-			})
+			});
 		}
 	}
 	/**

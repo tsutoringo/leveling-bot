@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
 const Base = require('./Base');
-const Client = require('../Client');
 
 class Channel extends Base {
 	/**

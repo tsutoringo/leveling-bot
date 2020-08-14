@@ -5,10 +5,10 @@ let serviceAccount = require('./discord-leveling-firebase-adminsdk-ysnn4-d9f915c
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
-	databaseURL: "https://discord-leveling.firebaseio.com"
+	databaseURL: 'https://discord-leveling.firebaseio.com'
 });
 
-let coolTimes = {}
+let coolTimes = {};
 
 let db = admin.firestore();
 const bot   = new Slack(config.TOKEN, config.SIGNING_SECRET,config.config);
@@ -21,6 +21,7 @@ bot.on('messageCreate',async msg => {
 	const exprince = Math.min(msg.content.length*config.leveling.expBoostRate, config.leveling.expOfMax);
 	const userRef = db.collection('users').doc(msg.data.user);
 	const user = await userRef.get();
+	
 	if(!user.exists) {
 		userRef.set({ 
 			nextLevelRequiredExp: config.leveling.startLevelRequiredExp,

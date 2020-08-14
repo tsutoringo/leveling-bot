@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 class Base {
 	/**
@@ -10,6 +10,6 @@ class Base {
 			this.id = id;
 		}
 	}
-};
+}
 
 module.exports = Base;

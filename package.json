@@ -1,0 +1,30 @@
+{
+  "name": "leveling-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@slack/bolt": "^2.2.3",
+    "@slack/rtm-api": "^5.0.5",
+    "axios": "^0.19.2",
+    "eslint-plugin-node": "^11.1.0",
+    "firebase-admin": "^9.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0"
+  },
+  "scripts": {
+    "lint": "eslint index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsutoringo/leveling-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsutoringo/leveling-bot/issues"
+  },
+  "homepage": "https://github.com/tsutoringo/leveling-bot#readme"
+}
