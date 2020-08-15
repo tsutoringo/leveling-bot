@@ -1,10 +1,8 @@
 'use strict';
 
 module.exports.messageType = {
-	TYPE: {
-		MESSAGE: 'message'
-	},
-	SUBTYPE: {
-		CHANNEL_JOIN: 'channel_join'
+	SUBTYPE_EVENTNAMES: {
+		MESSAGE_CREATE: void 0,
+		CHANNEL_
 	}
 };

@@ -13,7 +13,7 @@ let coolTimes = {};
 let db = admin.firestore();
 const bot   = new Slack(config.TOKEN, config.SIGNING_SECRET,config.config);
 
-bot.on('messageCreate',async msg => {
+bot.on('messageCreate', async msg => {
 	if(coolTimes[msg.data.user]) return; 
 	coolTimes[msg.data.user] = true;
 	setTimeout(() => delete coolTimes[msg.data.user],config.leveling.coolTime);
@@ -36,11 +36,13 @@ bot.on('messageCreate',async msg => {
 			localUser.exprince = 0;
 			localUser.nextLevelRequiredExp *= config.leveling.nextLevelRequiredExpRate;
 			localUser.nextLevelRequiredExp = Number(localUser.nextLevelRequiredExp.toFixed());
+			msg.channel.reply(`${msg.author.mention}レベルアップ！${localUser.level-1}→${localUser.level}`)
 		}
 		userRef.set(localUser);
 	}
 });
 
 (async () => {
+	bot.init();
 	await bot.connect();
 })();
