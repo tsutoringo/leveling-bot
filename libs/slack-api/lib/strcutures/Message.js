@@ -25,9 +25,6 @@ class Message extends Base {
 		this.idOnly = idOnly;
 		!idOnly?this.init(data):void 0;
 	}
-	get event_ts () {
-		return new Date ( this.data.event_ts );
-	}
 	init(data) {
 		this.data = data;
 
@@ -35,9 +32,20 @@ class Message extends Base {
 		this.authorID = data.user;
 		this.timestamp = data.ts;
 		this.author = new User({id: data.user}, this._client, true);
-		this.channel = new Channel({id: data.channel}, this._client, true)
+		this.channel = new Channel({id: data.channel}, this._client, true);
 		this.content = data.text;
 		this.subtype = data.subtype;
+	}
+	/**
+	 * reply to this message Thread
+	 * @param {String|Object} data 
+	 */
+	reply(data) {
+		if(typeof data === 'string') data = {text: data};
+		else data = {...data};
+
+		data.thread_ts = this.timestamp
+		this.channel.post(data)
 	}
 }
 

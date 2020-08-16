@@ -1,7 +1,6 @@
 'use strict';
 
 const Base = require('./Base');
-const Client = require('../Client');
 
 /**
  * @prop {id} id The ID of the user
@@ -30,7 +29,7 @@ class User extends Base {
 		return this.nickname || this.username;
 	}
 	get mention() {
-		return `<@${this.id}>`
+		return `<@${this.id}>`;
 	}
 	async full() {
 		return this.idOnly?await this._client.getUser(this):this;

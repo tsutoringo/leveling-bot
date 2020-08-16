@@ -1,5 +1,5 @@
 .DS_Store
-/config.js
 /discord-leveling-firebase-adminsdk-ysnn4-d9f915c33c.json
 /node_modules
 /.vscode
+/.env

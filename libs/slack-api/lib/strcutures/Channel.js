@@ -1,7 +1,6 @@
 'use strict';
 
 const Base = require('./Base');
-const Client = require('../Client');
 
 class Channel extends Base {
 	/**
@@ -27,10 +26,10 @@ class Channel extends Base {
 		this.private = data.isPrivate;
 	}
 	/**
-	 * 
+	 * Reply to this channel
 	 * @param {String|Object} data 
 	 */
-	reply(data) {
+	post(data) {
 		this._client.createMessage(this, data);
 	}
 }

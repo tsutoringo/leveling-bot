@@ -1,6 +1,7 @@
 'use strict';
 
 const Bolt = require('@slack/bolt').App;
+const { WebClient } = require('@slack/client');
 const { RTMClient } = require('@slack/rtm-api');
 const User = require('./strcutures/User');
 const Channel = require('./strcutures/Channel');
@@ -21,12 +22,9 @@ class Client extends EventEmitter {
 	constructor( token, signingSecret, options ) {
 		super();
 		this.token = token;
-		this.signingSecret = signingSecret
+		this.signingSecret = signingSecret;
 
-		this.bolt = new Bolt({
-			signingSecret,
-			token
-		});
+		this.API = new WebClient(token);
 
 		this.options = {
 			client: Object.assign({
@@ -39,9 +37,13 @@ class Client extends EventEmitter {
 				port: 3000
 			},options.bolt)
 		};
-		console.log(this.options)
 		if(this.options.client.usingEventListener === 'RTM') {
 			this.rtm = new RTMClient(this.token, options.rtm);
+		} else if(this.options.client.usingEventListener === 'bolt') {
+			this.bolt = new Bolt({
+				signingSecret,
+				token
+			});
 		}
 	}
 	/**
@@ -50,7 +52,7 @@ class Client extends EventEmitter {
 	 * @return { Promise<User> } The User of the ID
 	 */
 	getUser ( user ) {
-		return this.bolt.client.users.info({
+		return this.API.users.info({
 			token: this.token,
 			user: user instanceof User ? user.id:user
 		}).then(data => new User(data.user,this));
@@ -61,7 +63,7 @@ class Client extends EventEmitter {
 	 * @return { Promise<Channel> }
 	 */
 	getChannel ( channel ) {
-		return this.bolt.client.conversations.info({
+		return this.API.conversations.info({
 			token: this.token,
 			channel: channel instanceof Channel ? channel.id:channel
 		}).then(data => new Channel(data.channel,this));
@@ -71,7 +73,7 @@ class Client extends EventEmitter {
 	 */
 	init() {
 		if(this.options.client.usingEventListener === 'RTM') {
-			if(this.options.client.events.includes('message')) this.rtm.on('message', event => this._messageEmitter(message));
+			if(this.options.client.events.includes('message')) this.rtm.on('message', event => this._messageEmitter(event));
 		} else if(this.options.client.usingEventListener === 'bolt') {
 			if(this.options.client.events.includes('message')) this.bolt.event('message', ({ message }) => this._messageEmitter(message));
 		}
@@ -87,7 +89,7 @@ class Client extends EventEmitter {
 				 * @event Client#messageCreate
 				 * @type {Message}
 				 */
-				this.emit("messageCreate", new Message(message,this))
+				this.emit('messageCreate', new Message(message,this));
 				break;
 		}
 	}
@@ -111,13 +113,13 @@ class Client extends EventEmitter {
 	 */
 	createMessage (channel, data) {
 		if(typeof data === 'string') {
-			return this.bolt.client.chat.postMessage({
+			return this.API.chat.postMessage({
 				token: this.token,
 				channel: channel.id,
 				text: data
 			}).then(data => new Message(data.message,this));
 		} else {
-			return this.bolt.client.chat.postMessage({
+			return this.API.chat.postMessage({
 				token: this.token,
 				channel: channel.id,
 				...data
